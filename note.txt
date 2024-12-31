@@ -1,0 +1,31 @@
+<?php
+                    include("config.php");
+                    if(isset($_POST['submit'])){
+                        $username= $_POST['username'];
+                        $email= $_POST['email'];
+                        $age= (int) $_POST['age'];
+                        $password= $_POST['password'];
+
+                        //verifier si c'est une adresse email unique
+                        $verify_query= mysqli_query($con,"SELECT Email FROM users WHERE Email='$email'");
+
+                        if(mysqli_num_rows($verify_query) !=0){
+                            echo "<div class='message'>
+                                <p>Cet email est déja utilisé. Veuillez essayer un autre s'il vous plaît! </p>
+                                </div> <br>";
+                            echo "<a href='javascript:self.history.back()'><button class='btn'>Retour</button>";
+                        }
+                        else{
+                            mysqli_query($con, "INSERT INTO users(Username,Email, Age, Password) VALUES('$username', '$email', '$age', '$password')") or die("Une erreur est survenue ! ");
+                            
+                            echo "<div class='message'>
+                                <p> Connexion réussie</p>
+                                </div> <br>";
+                            echo "<a href='index.php'><button class='btn'>Se connecter maintenant </button>";
+                        
+                        }
+
+                    }
+                    else{
+                    
+                ?>
